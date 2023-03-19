@@ -120,6 +120,24 @@ func checkNumberFormat(base: String, number: String) -> Bool{
     return true
 }
 
+func getNewNumber(number: String, base: String, targetBase: String) -> String {
+    
+    var result = ""
+    
+    if base == "10" {
+        result = convertBaseTenToOther(inNum: number, targetBase: targetBase)
+    }
+    else if targetBase == "10" {
+        result = convertOtherToBaseTen(inNum: number, inBase: base)
+    }
+    else {
+        // when from and to bases are not 10, first convert to ten, then convert that temp result to the target base
+        let tempResult = convertOtherToBaseTen(inNum: number, inBase: base)
+        result = convertBaseTenToOther(inNum: tempResult, targetBase: targetBase)
+    }
+    return result
+}
+
 func convertBaseTenToOther(inNum: String, targetBase: String) -> String {
     
     let intNum = Int(inNum) ?? 1

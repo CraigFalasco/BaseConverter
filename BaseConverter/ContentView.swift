@@ -59,18 +59,7 @@ struct ContentView: View {
                     if checkNumberLength(base: inBase, number: inNumber) {
                         if checkNumberFormat(base: inBase, number: inNumber) {
                             Button("SUBMIT") {
-                                if inBase == "10" {
-                                    result = convertBaseTenToOther(inNum: inNumber, targetBase: inBase)
-                                }
-                                else if targetBase == "10" {
-                                    
-                                    result = convertOtherToBaseTen(inNum: inNumber, inBase: inBase)
-                                }
-                                else {
-                                    // when from and to bases are not 10, first convert to ten, then convert that temp result to the target base
-                                    let tempResult = convertOtherToBaseTen(inNum: inNumber, inBase: inBase)
-                                    result = convertBaseTenToOther(inNum: tempResult, targetBase: targetBase)
-                                }
+                                result = getNewNumber(number: inNumber, base: inBase, targetBase: targetBase)
                             }
                             .padding()
                             .background(Color(.black))
