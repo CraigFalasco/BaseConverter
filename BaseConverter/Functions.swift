@@ -7,7 +7,7 @@
 
 import Foundation
 
-// number of digits limit for bases
+// number of digits limit for bases used in checkNumberLength
 //  2 -  4 = 28 digits
 //       5 = 27
 //       6 = 24
@@ -120,11 +120,13 @@ func checkNumberFormat(base: String, number: String) -> Bool{
     return true
 }
 
-func convertBaseTenToOther(inNum: Int, inBase: Int) -> String {
+func convertBaseTenToOther(inNum: String, targetBase: String) -> String {
     
+    let intNum = Int(inNum) ?? 1
+    let intBase = Int(targetBase) ?? 10
     var newNumber = [String]()
-    let divisor = inBase
-    var dividend = inNum
+    let divisor = intBase
+    var dividend = intNum
     var quotient = 0
     var remainder = 0
     
@@ -141,16 +143,17 @@ func convertBaseTenToOther(inNum: Int, inBase: Int) -> String {
     return newNumber.joined()
 }
 
-func convertOtherToBaseTen(inNum: String, inBase: Int) -> String {
+func convertOtherToBaseTen(inNum: String, inBase: String) -> String {
     
     
     // create an array with just the valid place values for the input base, to be used to convert the base place values to decimal numbers
     let newPlaceValues = createValidPlaceValueArray(base: String(inBase))
     
-    // create array with each digit of the input number converted to decimal
+    // Create array with each digit of the input number converted to decimal. Example: hex abc becomes [10, 11, 12]
     let inputNumArray = Array(inNum.lowercased())
     var inputNumConverted = [Int]()
     var b = 0
+    
     while b < inputNumArray.count {
         if let index = newPlaceValues.firstIndex(of: String(inputNumArray[b])) {
             inputNumConverted.append(index)
@@ -158,13 +161,14 @@ func convertOtherToBaseTen(inNum: String, inBase: Int) -> String {
         b += 1
     }
     
-    // the new base number is: each digit times the base raised to the power of 0 through ..., starting from left (high order)
+    // the new base number is the sum of each converted digit[c] times the (base raised to the power of p), from right to left, or low order to high order
     var c = inputNumConverted.count - 1
     var p = 0
     var result = 0
+    let intBase = Int(inBase) ?? 1
    
     while c >= 0 {
-        result = result + (inputNumConverted[c] * Int(pow(Double(inBase),Double(p))))
+        result = result + (inputNumConverted[c] * Int(pow(Double(intBase),Double(p))))
         c -= 1
         p += 1
     }
@@ -174,7 +178,6 @@ func convertOtherToBaseTen(inNum: String, inBase: Int) -> String {
 func createValidPlaceValueArray (base: String) -> [String] {
     
     // create an array with just the valid place values for the input base
-    
     var returnPlaceValues = [String]()
     var d = 0
     

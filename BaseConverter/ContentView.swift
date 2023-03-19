@@ -15,9 +15,6 @@ struct ContentView: View {
     @State var inBase = "2"
     @State var targetBase = "10"
     @State var result = ""
-    @State var intNum: Int = 0
-    @State var intBase: Int = 0
-    @State var intTargetBase: Int = 0
     
     var body: some View {
 
@@ -63,21 +60,16 @@ struct ContentView: View {
                         if checkNumberFormat(base: inBase, number: inNumber) {
                             Button("SUBMIT") {
                                 if inBase == "10" {
-                                    intNum = Int(inNumber) ?? 1
-                                    intBase = Int(targetBase) ?? 10
-                                    result = convertBaseTenToOther(inNum: intNum, inBase: intBase)
+                                    result = convertBaseTenToOther(inNum: inNumber, targetBase: inBase)
                                 }
                                 else if targetBase == "10" {
-                                    intBase = Int(inBase) ?? 1
-                                    result = convertOtherToBaseTen(inNum: inNumber, inBase: intBase)
+                                    
+                                    result = convertOtherToBaseTen(inNum: inNumber, inBase: inBase)
                                 }
                                 else {
                                     // when from and to bases are not 10, first convert to ten, then convert that temp result to the target base
-                                    intBase = Int(inBase) ?? 1
-                                    let tempResult = convertOtherToBaseTen(inNum: inNumber, inBase: intBase)
-                                    intNum = Int(tempResult) ?? 1
-                                    intTargetBase = Int(targetBase) ?? 10
-                                    result = convertBaseTenToOther(inNum: intNum, inBase: intTargetBase)
+                                    let tempResult = convertOtherToBaseTen(inNum: inNumber, inBase: inBase)
+                                    result = convertBaseTenToOther(inNum: tempResult, targetBase: targetBase)
                                 }
                             }
                             .padding()
