@@ -58,13 +58,15 @@ struct ContentView: View {
                 
                     if checkNumberLength(base: inBase, number: inNumber) {
                         if checkNumberFormat(base: inBase, number: inNumber) {
-                            Button("SUBMIT") {
+                            Button(action: {
                                 result = getNewNumber(number: inNumber, base: inBase, targetBase: targetBase)
+                            })
+                            {
+                                Text("SUBMIT")
+                                    .padding()
+                                    .foregroundColor(.white)
+                                    .background(Capsule())
                             }
-                            .padding()
-                            .background(Color(.black))
-                            .foregroundColor(.white)
-                            .cornerRadius(10)
                         }
                         else {
                             Text(Constants.formatErrorMsg)
